@@ -1,0 +1,23 @@
+{
+  "name": "tech-debt-ui-lab",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Mini CRM con deuda tecnica intencional para probar auditores",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "axios": "0.21.1",
+    "bootstrap": "5.3.8",
+    "chart.js": "4.5.0",
+    "lodash": "4.17.15",
+    "moment": "2.24.0",
+    "uuid": "3.4.0"
+  },
+  "devDependencies": {
+    "vite": "6.4.1"
+  }
+}

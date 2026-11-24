@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/src/style.css">
+  <title>ClientFlow | Mini CRM</title>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand"><span class="brand-mark">C</span><span>ClientFlow</span></div>
+      <div class="workspace-label">ESPACIO DE TRABAJO</div>
+      <nav>
+        <a class="nav-link active" href="#dashboard" data-view="dashboard">▦ <span>Resumen</span></a>
+        <a class="nav-link" href="#clients" data-view="clients">♙ <span>Clientes</span></a>
+        <a class="nav-link" href="#tasks" data-view="tasks">☷ <span>Seguimientos</span></a>
+        <a class="nav-link" href="#reports" data-view="reports">▥ <span>Reportes</span></a>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="profile-avatar">LM</div>
+        <div><strong>Laura Méndez</strong><small>Administradora</small></div>
+        <span class="profile-dots">•••</span>
+      </div>
+    </aside>
+
+    <main class="main-area">
+      <header class="topbar">
+        <div class="mobile-brand">ClientFlow</div>
+        <div class="breadcrumb">Workspace <span>/</span> <strong id="crumb">Resumen</strong></div>
+        <div class="top-actions"><span class="status-dot"></span><span>Todos los cambios guardados</span><button class="icon-button" title="Notificaciones">♧</button></div>
+      </header>
+
+      <section class="page-content">
+        <div class="page-heading">
+          <div><p class="eyebrow" id="today-label">PANEL DE CONTROL</p><h1 id="page-title">Resumen general</h1><p class="subtitle">Esto es lo que está pasando con tu negocio.</p></div>
+          <button class="btn btn-primary" id="new-client-top">＋ Nuevo cliente</button>
+        </div>
+
+        <section id="dashboard-view" class="view">
+          <div class="stats-grid">
+            <article class="stat-card"><div class="stat-top"><span>Clientes totales</span><span class="stat-icon purple">♙</span></div><strong id="stat-clients">0</strong><small><span class="positive">↑ 12.5%</span> vs. mes anterior</small></article>
+            <article class="stat-card"><div class="stat-top"><span>Ingresos estimados</span><span class="stat-icon green">$</span></div><strong id="stat-revenue">$0</strong><small><span class="positive">↑ 8.2%</span> vs. mes anterior</small></article>
+            <article class="stat-card"><div class="stat-top"><span>Seguimientos abiertos</span><span class="stat-icon orange">☷</span></div><strong id="stat-tasks">0</strong><small><span class="warning-text">Requieren atención</span></small></article>
+            <article class="stat-card"><div class="stat-top"><span>Conversión</span><span class="stat-icon blue">↗</span></div><strong>24.8%</strong><small><span class="positive">↑ 2.4%</span> vs. mes anterior</small></article>
+          </div>
+          <div class="content-grid">
+            <article class="panel chart-panel"><div class="panel-heading"><div><h2>Actividad comercial</h2><p>Resumen de clientes por mes</p></div><select id="chart-period" class="form-select form-select-sm"><option>Últimos 6 meses</option><option>Este año</option></select></div><div class="chart-wrap"><canvas id="activity-chart"></canvas></div></article>
+            <article class="panel"><div class="panel-heading"><div><h2>Seguimientos próximos</h2><p>Tareas que necesitan tu atención</p></div><a href="#tasks" data-view="tasks">Ver todos</a></div><div id="upcoming-list" class="upcoming-list"></div></article>
+          </div>
+          <article class="panel table-panel"><div class="panel-heading"><div><h2>Clientes recientes</h2><p>Últimos contactos agregados</p></div><a href="#clients" data-view="clients">Ver clientes</a></div><div class="table-responsive"><table class="table align-middle"><thead><tr><th>CLIENTE</th><th>EMPRESA</th><th>ESTADO</th><th>VALOR</th><th>FECHA</th></tr></thead><tbody id="recent-clients"></tbody></table></div></article>
+        </section>
+
+        <section id="clients-view" class="view hidden">
+          <div class="toolbar"><div class="search-box">⌕ <input id="client-search" placeholder="Buscar por nombre o empresa..."></div><select id="client-filter" class="form-select"><option value="all">Todos los estados</option><option value="Activo">Activo</option><option value="Prospecto">Prospecto</option><option value="Inactivo">Inactivo</option></select><button class="btn btn-primary" id="new-client">＋ Agregar cliente</button></div>
+          <article class="panel table-panel"><div class="table-responsive"><table class="table align-middle"><thead><tr><th>CLIENTE</th><th>EMPRESA</th><th>CORREO</th><th>ESTADO</th><th>VALOR</th><th>ACCIONES</th></tr></thead><tbody id="clients-table"></tbody></table></div></article>
+        </section>
+
+        <section id="tasks-view" class="view hidden">
+          <div class="toolbar"><p class="subtitle">Organiza llamadas, reuniones y pendientes.</p><button class="btn btn-primary" id="new-task">＋ Nueva tarea</button></div>
+          <div id="tasks-list" class="task-grid"></div>
+        </section>
+
+        <section id="reports-view" class="view hidden">
+          <div class="stats-grid">
+            <article class="stat-card"><span>Valor de cartera</span><strong id="report-value">$0</strong><small>Valor potencial registrado</small></article>
+            <article class="stat-card"><span>Clientes activos</span><strong id="report-active">0</strong><small>Relaciones vigentes</small></article>
+            <article class="stat-card"><span>Prospectos</span><strong id="report-prospects">0</strong><small>Oportunidades abiertas</small></article>
+          </div>
+          <article class="panel"><div class="panel-heading"><div><h2>Distribución por estado</h2><p>Composición actual de la cartera</p></div></div><div class="report-bars" id="report-bars"></div></article>
+        </section>
+      </section>
+    </main>
+  </div>
+
+  <div class="modal fade" id="client-modal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered"><div class="modal-content">
+      <div class="modal-header"><div><h2 class="modal-title fs-5">Agregar cliente</h2><p class="modal-subtitle">Completa la información del contacto.</p></div><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+      <div class="modal-body"><form id="client-form">
+        <label class="form-label">Nombre completo</label><input class="form-control mb-3" id="client-name" required>
+        <label class="form-label">Empresa</label><input class="form-control mb-3" id="client-company" required>
+        <label class="form-label">Correo electrónico</label><input class="form-control mb-3" id="client-email" type="email" required>
+        <div class="row"><div class="col"><label class="form-label">Estado</label><select id="client-status" class="form-select"><option>Prospecto</option><option>Activo</option><option>Inactivo</option></select></div><div class="col"><label class="form-label">Valor estimado</label><input id="client-value" type="number" min="0" class="form-control" value="1000"></div></div>
+        <button class="btn btn-primary w-100 mt-4" type="submit">Guardar cliente</button>
+      </form></div>
+    </div></div>
+  </div>
+
+  <div class="modal fade" id="task-modal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered"><div class="modal-content">
+      <div class="modal-header"><div><h2 class="modal-title fs-5">Nueva tarea</h2><p class="modal-subtitle">Agrega un seguimiento pendiente.</p></div><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+      <div class="modal-body"><form id="task-form">
+        <label class="form-label">Descripción</label><input id="task-title" class="form-control mb-3" required>
+        <label class="form-label">Cliente</label><select id="task-client" class="form-select mb-3"></select>
+        <label class="form-label">Fecha</label><input id="task-date" type="date" class="form-control mb-3" required>
+        <button class="btn btn-primary w-100 mt-2" type="submit">Crear seguimiento</button>
+      </form></div>
+    </div></div>
+  </div>
+
+  <div class="toast-container position-fixed bottom-0 end-0 p-3"><div id="app-toast" class="toast" role="alert"><div class="toast-body" id="toast-message">Listo</div></div></div>
+  <script src="/src/main.js"></script>
+</body>
+</html>
